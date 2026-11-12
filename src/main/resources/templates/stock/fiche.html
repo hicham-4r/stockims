@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StockIMS - Stock</title>
+</head>
+<body>
+<h1 th:text="${article.designation}">Article</h1>
+<p>Référence : <span th:text="${article.reference}"></span></p>
+<p>Stock disponible : <strong th:text="${stock}">0</strong></p>
+<p>La date du jour sera enregistrée.</p>
+<form method="post" th:object="${mouvement}"
+      th:action="@{/stock/{id}/entrees(id=${article.id})}">
+    <p th:each="erreur : ${#fields.globalErrors()}"
+       th:text="${erreur}">Erreur</p>
+    <label for="quantite">Quantité</label>
+    <input type="number" step="1" th:field="*{quantite}">
+    <span th:errors="*{quantite}"></span>
+    <button type="submit">Enregistrer une entrée</button>
+    <button type="submit"
+            th:formaction="@{/stock/{id}/sorties(id=${article.id})}">
+        Enregistrer une sortie
+    </button>
+</form>
+<p><a th:href="@{/articles}">Retour aux articles</a></p>
+</body>
+</html>

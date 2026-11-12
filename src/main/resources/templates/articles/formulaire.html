@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StockIMS - Nouvel article</title>
+</head>
+<body>
+<h1>Nouvel article</h1>
+<form th:action="@{/articles}" th:object="${article}"
+      method="post">
+    <p><label for="reference">Référence</label>
+        <input id="reference" th:field="*{reference}">
+        <span th:errors="*{reference}"></span></p>
+    <p><label for="designation">Désignation</label>
+        <input id="designation" th:field="*{designation}">
+        <span th:errors="*{designation}"></span></p>
+    <button type="submit">Enregistrer</button>
+</form>
+<a th:href="@{/articles}">Retour à la liste</a>
+</body>
+</html>
+

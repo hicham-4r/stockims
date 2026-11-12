@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StockIMS - Articles</title>
+</head>
+<body>
+<h1>Les articles</h1>
+<a th:href="@{/articles/nouveau}">Ajouter un article</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Référence</th>
+        <th>Désignation</th>
+        <th>Stock</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${articles}">
+        <td th:text="${a.id}">1</td>
+        <td th:text="${a.reference}">TIS-001</td>
+        <td th:text="${a.designation}">Rouleau de coton</td>
+        <td>
+            <a th:href="@{/stock/{id}(id=${a.id})}">Voir le stock</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<p th:if="${#lists.isEmpty(articles)}">Aucun article.</p>
+</body>
+</html>
