@@ -44,4 +44,16 @@ public class StockService {
         }
         sorties.save(new Sortie(article, quantite, LocalDate.now()));
     }
+
+    @Transactional
+    public void supprimer(Long id) {
+        // Use the same lock as entries/withdrawals to serialize stock changes.
+        Article article = verrouiller(id);
+        entrees.deleteAll(entrees.findByArticle_Id(id));
+        sorties.deleteAll(sorties.findByArticle_Id(id));
+        // Flush dependent rows before deleting the article's foreign-key target.
+        entrees.flush();
+        sorties.flush();
+        articles.delete(article);
+    }
 }

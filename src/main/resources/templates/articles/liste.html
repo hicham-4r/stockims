@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>StockIMS - Articles</title>
-</head>
+<head th:replace="~{fragments/layout :: head('Mes articles')}"></head>
 <body>
-<h1>Les articles</h1>
-<a th:href="@{/articles/nouveau}">Ajouter un article</a>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Référence</th>
-        <th>Désignation</th>
-        <th>Stock</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="a : ${articles}">
-        <td th:text="${a.id}">1</td>
-        <td th:text="${a.reference}">TIS-001</td>
-        <td th:text="${a.designation}">Rouleau de coton</td>
-        <td>
-            <a th:href="@{/stock/{id}(id=${a.id})}">Voir le stock</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<p th:if="${#lists.isEmpty(articles)}">Aucun article.</p>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<aside th:replace="~{fragments/layout :: sidebar('articles')}"></aside>
+<div class="workspace">
+    <header th:replace="~{fragments/layout :: topbar('Mes articles')}"></header>
+    <main id="contenu" class="main-content">
+        <div class="page-heading">
+            <div><p class="eyebrow">VOTRE INVENTAIRE</p><h1>Mes articles<span class="heading-dot">.</span></h1><p>Chaque référence à sa place. Chaque mouvement sous contrôle.</p></div>
+            <a class="button button-primary" th:href="@{/articles/nouveau}"><svg th:replace="~{fragments/layout :: icon('plus')}"></svg> Ajouter un article</a>
+        </div>
+        <div class="alert alert-success" role="status" th:if="${succes}">
+            <svg th:replace="~{fragments/layout :: icon('check')}"></svg><span th:text="${succes}"></span>
+        </div>
+        <section class="catalog-banner">
+            <div class="catalog-banner-icon"><svg th:replace="~{fragments/layout :: icon('box')}"></svg></div>
+            <div><p class="eyebrow">UN CATALOGUE BIEN ORGANISÉ</p><h2>Une vision claire de vos articles.</h2><p>Ouvrez une fiche pour consulter ou ajuster son stock.</p></div>
+            <div class="catalog-count"><strong th:text="${#lists.size(articles)}">0</strong><span>article(s) au catalogue</span></div>
+        </section>
+        <section class="panel">
+            <div class="panel-heading"><h2>Tous les articles <span class="count-badge" th:text="${#lists.size(articles)}">0</span></h2><span class="muted">Votre catalogue</span></div>
+            <div class="table-scroll" th:unless="${#lists.isEmpty(articles)}" role="region" aria-label="Liste des articles" tabindex="0">
+                <table>
+                    <caption class="sr-only">Articles du catalogue et actions de gestion du stock</caption>
+                    <thead><tr><th scope="col">ARTICLE</th><th scope="col">RÉFÉRENCE</th><th scope="col">IDENTIFIANT</th><th scope="col" class="align-right">ACTIONS</th></tr></thead>
+                    <tbody>
+                    <tr th:each="a : ${articles}">
+                        <td><div class="article-cell"><span class="article-icon"><svg th:replace="~{fragments/layout :: icon('box')}"></svg></span><strong th:text="${a.designation}">Rouleau de coton</strong></div></td>
+                        <td><span class="reference-badge" th:text="${a.reference}">TIS-001</span></td>
+                        <td class="muted" th:text="${'#' + a.id}">#1</td>
+                        <td><div class="row-actions">
+                            <a class="button button-small button-outline" th:href="@{/stock/{id}(id=${a.id})}" th:attr="aria-label=${'Voir le stock de ' + a.designation}">Voir le stock <svg th:replace="~{fragments/layout :: icon('arrow')}"></svg></a>
+                            <a class="icon-button danger-link" th:href="@{/stock/{id}/supprimer(id=${a.id})}" th:attr="aria-label=${'Supprimer ' + a.designation}" title="Supprimer l’article"><svg th:replace="~{fragments/layout :: icon('trash')}"></svg></a>
+                        </div></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="empty-state" th:if="${#lists.isEmpty(articles)}">
+                <span class="empty-icon"><svg th:replace="~{fragments/layout :: icon('box')}"></svg></span>
+                <h3>Le début d’un inventaire bien rangé.</h3><p>Ajoutez votre premier article pour commencer à suivre votre stock.</p>
+                <a class="button button-primary" th:href="@{/articles/nouveau}"><svg th:replace="~{fragments/layout :: icon('plus')}"></svg> Créer mon premier article</a>
+            </div>
+            <div class="panel-footer"><span class="status-dot"></span> Les quantités disponibles sont consultables dans chaque fiche article.</div>
+        </section>
+        <footer class="page-footer"><span>StockIMS · ESITH</span><span>Tout votre inventaire, au même endroit.</span></footer>
+    </main>
+</div>
 </body>
 </html>

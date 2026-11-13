@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>StockIMS - Nouvel article</title>
-</head>
+<head th:replace="~{fragments/layout :: head('Nouvel article')}"></head>
 <body>
-<h1>Nouvel article</h1>
-<form th:action="@{/articles}" th:object="${article}"
-      method="post">
-    <p><label for="reference">Référence</label>
-        <input id="reference" th:field="*{reference}">
-        <span th:errors="*{reference}"></span></p>
-    <p><label for="designation">Désignation</label>
-        <input id="designation" th:field="*{designation}">
-        <span th:errors="*{designation}"></span></p>
-    <button type="submit">Enregistrer</button>
-</form>
-<a th:href="@{/articles}">Retour à la liste</a>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<aside th:replace="~{fragments/layout :: sidebar('nouveau')}"></aside>
+<div class="workspace">
+    <header th:replace="~{fragments/layout :: topbar('Nouvel article')}"></header>
+    <main id="contenu" class="main-content">
+        <a class="back-link" th:href="@{/articles}"><svg th:replace="~{fragments/layout :: icon('back')}"></svg> Retour aux articles</a>
+        <div class="page-heading"><div><p class="eyebrow">AGRANDISSEZ VOTRE CATALOGUE</p><h1>Nouvel article<span class="heading-dot">.</span></h1><p>Quelques informations, et votre article est prêt à être suivi.</p></div></div>
+        <div class="form-layout">
+            <section class="panel form-panel">
+                <div class="panel-heading"><h2><svg th:replace="~{fragments/layout :: icon('box')}"></svg> Informations de l’article</h2><span class="muted">Champs obligatoires *</span></div>
+                <form th:action="@{/articles}" th:object="${article}" method="post" class="article-form">
+                    <div class="alert alert-error" role="alert" th:if="${#fields.hasGlobalErrors()}"><p th:each="erreur : ${#fields.globalErrors()}" th:text="${erreur}"></p></div>
+                    <div class="field">
+                        <label for="reference">Référence <span class="required">*</span></label>
+                        <input id="reference" th:field="*{reference}" type="text" maxlength="20" required placeholder="Ex. TIS-001"
+                               aria-describedby="reference-aide reference-erreur" th:errorclass="input-error" th:attr="aria-invalid=${#fields.hasErrors('reference')}">
+                        <span class="field-help" id="reference-aide">Une référence unique pour retrouver facilement l’article. 20 caractères maximum.</span>
+                        <span class="field-error" id="reference-erreur" th:errors="*{reference}"></span>
+                    </div>
+                    <div class="field">
+                        <label for="designation">Désignation <span class="required">*</span></label>
+                        <input id="designation" th:field="*{designation}" type="text" maxlength="80" required placeholder="Ex. Rouleau de coton"
+                               aria-describedby="designation-aide designation-erreur" th:errorclass="input-error" th:attr="aria-invalid=${#fields.hasErrors('designation')}">
+                        <span class="field-help" id="designation-aide">Un nom clair et descriptif. 80 caractères maximum.</span>
+                        <span class="field-error" id="designation-erreur" th:errors="*{designation}"></span>
+                    </div>
+                    <div class="form-actions"><a class="button button-outline" th:href="@{/articles}">Annuler</a><button class="button button-primary" type="submit"><svg th:replace="~{fragments/layout :: icon('check')}"></svg> Enregistrer l’article</button></div>
+                </form>
+            </section>
+            <aside class="tip-card">
+                <span class="feature-icon sage"><svg th:replace="~{fragments/layout :: icon('plus')}"></svg></span>
+                <p class="eyebrow">UNE BONNE BASE</p><h2>Bien nommé.<br>Facile à retrouver.</h2>
+                <p>Choisissez des références cohérentes et des désignations précises pour garder un catalogue lisible.</p>
+                <div class="tip-example"><span>EXEMPLE DE RÉFÉRENCE</span><strong>TIS-001</strong><p>Catégorie + numéro unique</p></div>
+                <div class="tip-footer"><svg th:replace="~{fragments/layout :: icon('in')}"></svg><span>Après la création, ouvrez la fiche pour enregistrer votre première entrée de stock.</span></div>
+            </aside>
+        </div>
+        <footer class="page-footer"><span>StockIMS · ESITH</span><span>Les détails font la différence.</span></footer>
+    </main>
+</div>
 </body>
 </html>
 

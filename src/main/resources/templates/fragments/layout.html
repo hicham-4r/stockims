@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titre)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#182b25">
+    <title th:text="${titre + ' · StockIMS'}">StockIMS</title>
+    <link rel="stylesheet" th:href="@{/css/stockims.css}">
+</head>
+<body>
+<aside class="sidebar" th:fragment="sidebar(actif)" aria-label="Navigation principale">
+    <a class="brand" th:href="@{/}" aria-label="StockIMS, accueil">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Stock<span class="brand-light">IMS</span><small>LE STOCK, EN TOUTE CLARTÉ.</small></span>
+    </a>
+    <p class="nav-caption">ESPACE DE GESTION</p>
+    <nav class="nav-links">
+        <a th:href="@{/}" th:classappend="${actif == 'accueil'} ? 'active'" th:attr="aria-current=${actif == 'accueil' ? 'page' : null}">
+            <svg th:replace="~{fragments/layout :: icon('home')}"></svg> Vue d’ensemble
+        </a>
+        <a th:href="@{/articles}" th:classappend="${actif == 'articles'} ? 'active'" th:attr="aria-current=${actif == 'articles' ? 'page' : null}">
+            <svg th:replace="~{fragments/layout :: icon('box')}"></svg> Mes articles
+        </a>
+        <a th:href="@{/articles/nouveau}" th:classappend="${actif == 'nouveau'} ? 'active'" th:attr="aria-current=${actif == 'nouveau' ? 'page' : null}">
+            <svg th:replace="~{fragments/layout :: icon('plus')}"></svg> Nouvel article
+        </a>
+    </nav>
+    <div class="sidebar-note">
+        <span class="note-symbol" aria-hidden="true">↗</span><strong>Chaque mouvement compte.</strong>
+        <p>Des articles bien organisés,<br>un stock mieux maîtrisé.</p>
+    </div>
+    <div class="sidebar-footer"><span class="school-badge">IMS</span><span>ESITH<small>Gestion des stocks</small></span></div>
+</aside>
+<header class="topbar" th:fragment="topbar(section)">
+    <div class="breadcrumb">Espace de travail <span aria-hidden="true">/</span> <strong th:text="${section}">Articles</strong></div>
+    <span class="workspace-label"><span class="status-dot"></span> StockIMS <span class="workspace-avatar">IM</span></span>
+</header>
+<svg th:fragment="icon(nom)" class="icon" width="20" height="20" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path th:if="${nom == 'home'}" d="M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/>
+    <path th:if="${nom == 'box'}" d="m12 3 9 5v9l-9 5-9-5V8Zm0 10 9-5M12 13 3 8m9 5v9M7.5 5.5l9 5"/>
+    <path th:if="${nom == 'plus'}" d="M12 5v14M5 12h14"/>
+    <path th:if="${nom == 'arrow'}" d="M5 12h14m-5-5 5 5-5 5"/>
+    <path th:if="${nom == 'back'}" d="M19 12H5m5-5-5 5 5 5"/>
+    <path th:if="${nom == 'in'}" d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>
+    <path th:if="${nom == 'out'}" d="M12 15V3m-5 5 5-5 5 5M4 16v5h16v-5"/>
+    <path th:if="${nom == 'trash'}" d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>
+    <path th:if="${nom == 'check'}" d="m5 12 4 4L19 6"/>
+    <path th:if="${nom == 'clock'}" d="M12 8v4l3 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"/>
+</svg>
+</body>
+</html>
