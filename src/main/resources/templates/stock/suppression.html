@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Supprimer un article')}"></head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<aside th:replace="~{fragments/layout :: sidebar('articles')}"></aside>
+<div class="workspace">
+    <header th:replace="~{fragments/layout :: topbar('Suppression d’un article')}"></header>
+    <main id="contenu" class="main-content">
+        <a class="back-link" th:href="@{/stock/{id}(id=${article.id})}"><svg th:replace="~{fragments/layout :: icon('back')}"></svg> Retour à la fiche article</a>
+        <section class="panel delete-panel">
+            <span class="delete-icon"><svg th:replace="~{fragments/layout :: icon('trash')}"></svg></span>
+            <p class="eyebrow">CONFIRMATION DE SUPPRESSION</p><h1>Supprimer cet article ?</h1>
+            <p class="delete-intro">Cette action est définitive. L’article et toutes ses entrées et sorties de stock seront supprimés.</p>
+            <dl class="delete-summary">
+                <div><dt>Article</dt><dd th:text="${article.designation}">Article</dd></div>
+                <div><dt>Référence</dt><dd><span class="reference-badge" th:text="${article.reference}">TIS-001</span></dd></div>
+                <div><dt>Stock disponible</dt><dd><span th:text="${stock}">0</span> unité(s)</dd></div>
+            </dl>
+            <form method="post" th:action="@{/stock/{id}/supprimer(id=${article.id})}">
+                <label class="confirmation-check" for="confirmation"><input type="checkbox" name="confirmation" id="confirmation" value="true" required><span>Je confirme la suppression définitive de cet article et de ses mouvements.</span></label>
+                <div class="form-actions"><a class="button button-outline" th:href="@{/stock/{id}(id=${article.id})}">Annuler</a><button class="button button-danger" type="submit"><svg th:replace="~{fragments/layout :: icon('trash')}"></svg> Supprimer définitivement</button></div>
+            </form>
+            <p class="delete-hint">Pour retirer seulement des unités, annulez et enregistrez une sortie de stock.</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller @RequestMapping("/stock") @RequiredArgsConstructor
 public class StockController {
     private final StockService service;
@@ -49,5 +50,25 @@ public class StockController {
             return preparer(id, model);
         }
         return "redirect:/stock/" + id;
+    }
+
+    @GetMapping("/{id}/supprimer")
+    public String confirmationSuppression(@PathVariable("id") Long id, Model model) {
+        preparer(id, model);
+        return "stock/suppression";
+    }
+
+    @PostMapping("/{id}/supprimer")
+    public String supprimer(@PathVariable("id") Long id,
+                            @RequestParam(name = "confirmation", defaultValue = "false")
+                            boolean confirmation, RedirectAttributes redirection) {
+        if (!confirmation) return "redirect:/stock/" + id + "/supprimer";
+        try {
+            service.supprimer(id);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+        redirection.addFlashAttribute("succes", "L’article et ses mouvements de stock ont été supprimés.");
+        return "redirect:/articles";
     }
 }
