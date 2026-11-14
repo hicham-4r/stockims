@@ -248,3 +248,9 @@ Restart the application to load the changes. If Git reports local modifications 
 | Port 8080 is already in use | Stop the other application, or pass `--server.port=8081` as an application argument. |
 | A reference already exists | Choose a unique article reference. |
 | A withdrawal is rejected | Use a positive whole number no greater than the available stock. |
+<img width="1280" height="719" alt="image" src="https://github.com/user-attachments/assets/b780a81a-66c1-4eb4-a633-568d33ca357f" />
+<img width="1280" height="677" alt="image" src="https://github.com/user-attachments/assets/7d9c2cc9-0a2e-43bf-88de-889ef8254ace" />
+<img width="1280" height="673" alt="image" src="https://github.com/user-attachments/assets/452faa12-5f37-43c2-9192-50a149c14eeb" />
+
+
+
